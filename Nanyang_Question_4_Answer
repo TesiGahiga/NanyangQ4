@@ -1,0 +1,79 @@
+
+Unless you have received this program directly from RStudio pursuant to
+the terms of a commercial license agreement with RStudio, then RStudio is 
+licensed to you under the AGPLv3, the terms of which are included in 
+the file COPYING.
+
+You can obtain the source code for this version of RStudio at:
+
+  https://github.com/rstudio/rstudio/tree/718e6d75b094658d999495534badf55fb2ce0047
+
+
+You can obtain the source code for the latest version of RStudio at:
+
+  https://github.com/rstudio/rstudio/
+
+
+  //---------------Input---------------//
+
+input_question_4 <- read.delim("C:/Users/aflay/OneDrive/Desktop/input_question_4", header=FALSE")
+
+View(input_question_4)
+
+#Loading packages 
+
+install.packages("imager")
+
+#library function imager description: This Image processing Library is based on "CImg". 
+It's a "fast image processing for images in up to 4 dimensions (two spatial
+dimensions, one time/depth dimension, one colour dimension). Provides most
+traditional image processing tools (filtering, morphology, transformations,
+etc.) as well as various functions for easily analysing image data using R. The
+package wraps 'CImg', <http://cimg.eu>, a simple, modern C++ library for image
+processing."(Bartheleme S., 2020)
+
+if (!requireNamespace("BiocManager", quietly = TRUE))
+    install.packages("BiocManager")
+BiocManager::install(version = "3.11")
+BiocManager::install("EBImage")
+
+#library function EBImage description:
+ "EBImage provides general purpose functionality for image processing and analysis. In the context of (high-throughput) microscopy-based cellular assays, EBImage offers tools to segment cells and extract quantitative cellular descriptors. This allows the automation of such tasks using the R programming language and facilitates the use of other tools in the R environment for signal processing, statistical modeling, machine learning and visualization with image data." (Pau G et al., 2010)
+
+#Convert input class to image to use bwlabel(x,...) function
+class(input_question_4)
+[1] "data.frame"
+
+x <- data.matrix(input_question_4)
+
+class(x)
+[1] "matrix" "array" 
+
+library("imager")
+
+
+
+z <- as.cimg(x,v.name = "value", dims=c(20,10,1,1))
+
+
+
+
+//---------------Output---------------//
+
+library(EBImage)
+
+y <- bwlabel(z)
+
+Output_question_4 <- data.matrix(y)
+
+display(Output_question_4)
+
+View(Output_question_4)
+
+
+#references: 
+Pau G, Fuchs F, Sklyar O, Boutros M, Huber W (2010). "EBImage-an R package for image processing with applications to cellular phenotypes." Bioinformatics, 26(7), 979-981. doi: 10.1093/bioinformatics/btq046.
+
+Barthelme S. (2020). imager: Image Processing Library Based on 'CImg'. R package version
+  0.42.3. https://CRAN.R-project.org/package=imager
+
